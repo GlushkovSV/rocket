@@ -96,6 +96,19 @@ class Engine(PART):
         self.tank_fuel = tank_fuel
         self.tank_oxi = tank_oxi
 
+    def set_consumption(self, consumption_fuel: float = 0, consumption_oxi: float = 0) -> None:
+        """
+        стоит переработать чтобы бросать исключение, пока для отладки оставил вывод сообщение в консоль
+        :param consumption_fuel:
+        :param consumption_oxi:
+        :return:
+        """
+        if self.tank_fuel and self.tank_oxi:
+            self.consumption_fuel = consumption_fuel
+            self.consumption_oxi = consumption_oxi
+        else:
+            print('before setting consumption need associate fuel and oxi tank to engine')
+
     def __str__(self) -> str:
         if self.tank_fuel and self.tank_oxi:
             return ''.join([super().__str__(), f'fuel={self.tank_fuel.name}\n', f'oxi={self.tank_oxi.name}\n'])
