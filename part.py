@@ -8,14 +8,15 @@ class PART:
                  r_top: float = 0,
                  r_bottom: float = 0,
                  length: float = 0,
-                 struct_mass: float = 0) -> None:
+                 struct_mass: float = 0,
+                 **kwrags) -> None:
         self.name = name
         self.r_top = r_top
         self.r_bottom = r_bottom
         self.length = length
         self.struct_mass = struct_mass
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Part {self.name}:\n' \
                f'R top={self.r_top}\n' \
                f'R bottom={self.r_bottom}\n' \
@@ -37,10 +38,13 @@ class PHO(PART):
 
 
 class TankFuel(PART):
+    # Класс для баков вообще, неважно горючего или окислителя
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.fuel_mass = 0
         self.fuel_density = 0
+        self.front_bottom_r = kwargs['front_bottom_r']
+        self.rear_bottom_m = kwargs['rear_bottom_r']
 
     def fill_tank(self,
                   fuel_mass: float = 0,
@@ -73,22 +77,29 @@ class TankFuel(PART):
         fuel_volume, fuel_height, fuel_centroid = self.fuel_geom_calc()
         return (struct_centroid * self.struct_mass + fuel_centroid * self.fuel_mass) / self.mass()
 
-    def __str__(self):
-        return f'Part {self.name}:\n' \
-               f'R top={self.r_top} m \n' \
-               f'R bottom={self.r_bottom} m\n' \
-               f'Length={self.length} m\n' \
-               f'Mass={self.mass()} kg\n' \
-               f'within FuelMass={self.fuel_mass} kg\n' \
-               f'Centroid={self.centroid()} m\n'
-
-
-class TankOxi(PART):
-    pass
+    def __str__(self) -> str:
+        return ''.join([super().__str__(), f'within FuelMass={self.fuel_mass} kg\n'])
 
 
 class Engine(PART):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.trust = 0  # Тяга, Н
+        self.impuls = 0  # ?
+        self.angle = 0  # Угол отклонения сопла (или вектора тяги?), град?рад?
+        self.consumption_fuel = 0  # Массовый расход горючего кг/с
+        self.consumption_oxi = 0  # Массовый расход окислителя кг/с
+        self.tank_fuel = None  # Ссылка на бак горючего
+        self.tank_oxi = None  # Ссылка на бак окислителя
+
+    def associate_tank(self, tank_fuel: TankFuel, tank_oxi: TankFuel):
+        self.tank_fuel = tank_fuel
+        self.tank_oxi = tank_oxi
+
+    def __str__(self) -> str:
+        if self.tank_fuel and self.tank_oxi:
+            return ''.join([super().__str__(), f'fuel={self.tank_fuel.name}\n', f'oxi={self.tank_oxi.name}\n'])
+        return super().__str__()
 
 
 class Payload(PART):
