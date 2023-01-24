@@ -9,7 +9,7 @@ class PART:
                  r_bottom: float = 0,
                  length: float = 0,
                  struct_mass: float = 0,
-                 **kwrags) -> None:
+                 **kwargs) -> None:
         self.name = name
         self.r_top = r_top
         self.r_bottom = r_bottom
@@ -113,7 +113,6 @@ class Engine(PART):
         if self.tank_fuel and self.tank_oxi:
             return ''.join([super().__str__(), f'fuel={self.tank_fuel.name}\n', f'oxi={self.tank_oxi.name}\n'])
         return super().__str__()
-
 
 class Payload(PART):
     def centroid(self) -> float:
