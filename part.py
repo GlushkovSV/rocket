@@ -1,6 +1,25 @@
 import math
 
 
+class RingFrame:
+    """ Class for RingFrame (Shpangout) """
+    def __init__(self,
+                 name: str = '',
+                 r: float = 0,
+                 struct_mass: float = 0) -> None:
+        self.name = name
+        self.r = r
+        self.struct_mass = struct_mass
+
+    def __str__(self) -> str:
+        return f'RingFrame {self.name}:\n' \
+               f'Radius={self.r}\n' \
+               f'Mass={self.mass()}\n'
+
+    def mass(self) -> float:
+        return self.struct_mass
+
+
 class PART:
     """ Base class for parts of stage rockets """
     def __init__(self,
@@ -9,7 +28,7 @@ class PART:
                  r_bottom: float = 0,
                  length: float = 0,
                  struct_mass: float = 0,
-                 **kwrags) -> None:
+                 **kwargs) -> None:
         self.name = name
         self.r_top = r_top
         self.r_bottom = r_bottom
@@ -85,7 +104,7 @@ class Engine(PART):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.trust = 0  # Тяга, Н
-        self.impuls = 0  # ?
+        self.impulse = 0  # Удельный импульс
         self.angle = 0  # Угол отклонения сопла (или вектора тяги?), град?рад?
         self.consumption_fuel = 0  # Массовый расход горючего кг/с
         self.consumption_oxi = 0  # Массовый расход окислителя кг/с
