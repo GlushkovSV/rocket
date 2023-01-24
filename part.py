@@ -133,7 +133,6 @@ class Engine(PART):
             return ''.join([super().__str__(), f'fuel={self.tank_fuel.name}\n', f'oxi={self.tank_oxi.name}\n'])
         return super().__str__()
 
-
 class Payload(PART):
     def centroid(self) -> float:
         return self.length / 2
