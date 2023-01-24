@@ -20,6 +20,41 @@ class RingFrame:
         return self.struct_mass
 
 
+class Bottom:
+    """ Class for Bottoms (front and rear) Tanks """
+    def __init__(self,
+                 name: str = '',
+                 r: float = 0,
+                 rm: float = 0,
+                 struct_mass: float = 0) -> None:
+        """
+        :param name: имя днища
+        :param r: радиус стыкуемого отсека
+        :param rm: радиус кривизны меридиана
+        :param struct_mass: масса днища
+        """
+        self.name = name
+        self.r = r
+        self.rm = rm
+        self.struct_mass = struct_mass
+
+    def __str__(self) -> str:
+        return f'TankBottom {self.name}:\n' \
+               f'Radius={self.r}\n' \
+               f'Mass={self.mass()}\n'
+
+    def mass(self) -> float:
+        return self.struct_mass
+
+    def centroid(self) -> float:
+        """
+        Надо найти формулу расчета центра масс части сферической поверхности
+
+        :return:
+        """
+        return 3/8 * self.rm
+
+
 class PART:
     """ Base class for parts of stage rockets """
     def __init__(self,
@@ -132,6 +167,7 @@ class Engine(PART):
         if self.tank_fuel and self.tank_oxi:
             return ''.join([super().__str__(), f'fuel={self.tank_fuel.name}\n', f'oxi={self.tank_oxi.name}\n'])
         return super().__str__()
+
 
 class Payload(PART):
     def centroid(self) -> float:
