@@ -97,8 +97,8 @@ class TankFuel(PART):
         super().__init__(**kwargs)
         self.fuel_mass = 0
         self.fuel_density = 0
-        self.front_bottom_r = kwargs['front_bottom_r']
-        self.rear_bottom_m = kwargs['rear_bottom_r']
+        self.front_bottom_r = kwargs.get('front_bottom_r', 0)
+        self.rear_bottom_m = kwargs.get('rear_bottom_r', 0)
 
     def fill_tank(self,
                   fuel_mass: float = 0,
