@@ -1,4 +1,4 @@
-import math
+from math import pi
 
 
 class RingFrame:
@@ -75,8 +75,9 @@ class PART:
                f'R top={self.r_top}\n' \
                f'R bottom={self.r_bottom}\n' \
                f'Length={self.length}\n' \
-               f'Centroid={self.centroid()}\n' \
+               f'Centroid={self.centroid():.2f}\n' \
                f'Mass={self.mass()}\n'
+# f'Centroid={self.centroid()}\n' \
 
     def mass(self) -> float:
         return self.struct_mass
@@ -122,7 +123,7 @@ class TankFuel(PART):
         if self.fuel_density == 0:
             return 0, 0, 0
         fuel_volume = self.fuel_mass / self.fuel_density
-        fuel_height = fuel_volume / (math.pi * self.r_bottom**2)
+        fuel_height = fuel_volume / (pi * self.r_bottom**2)
         fuel_centroid = self.length - fuel_height
         return fuel_volume, fuel_height, fuel_centroid
 
